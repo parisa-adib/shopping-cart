@@ -15,7 +15,7 @@ const sumItems = items => {
 }
 
 const cartReducer = (state, action) => {
-    console.log(state);
+    console.log(action.type);
     switch(action.type) {
         case "ADD_ITEM":  //add to cart for the FIRST TIME
             if(!state.selectedItems.find(item => item.id === action.payload.id)){
@@ -35,7 +35,7 @@ const cartReducer = (state, action) => {
             return{ 
                 ...state,
                 selectedItems: [...newSelectedItems], //update selectedItems with new array
-                ...sumItems(state.selectedItems)
+                ...sumItems(newSelectedItems)
             }
         case "INCREASE": //add
             const indexI = state.selectedItems.findIndex(item => item.id === action.payload.id);
