@@ -10,30 +10,36 @@ import { CartContext } from '../../context/CartContextProvider';
 //icons
 import trashIcon from '../../asset/icons/trash.svg';
 
+//style
+import styles from './Product.module.css';
+
 const Product = ({productData}) => {
 
     const {state, dispatch} = useContext(CartContext);
 
     return (
-        <div className='mt-5 border-opacity-20 border border-gray-500 rounded-md shadow-md shadow-gray-300'>
-            <img src={productData.image} alt="product" className='w-52 h-48' />
-            <div className='p-4'>
-                <h3 className='text-lg font-medium font-sans'>{shorten(productData.title)}</h3>
-                <p className='text-lg'>{productData.price}</p>
-                <div>
+        <div className={styles.container}>
+            <img src={productData.image} alt="product" className={styles.cardImage} />
+            <div>
+                <h3>{shorten(productData.title)}</h3>
+                <p>{productData.price}</p>
+                <div className={styles.linkContainer}>
                     <Link to={`/product/${productData.id}`}>details</Link>
-                    <div>
-                        {
-                            isInCart(state, productData.id) ? 
-                            <button onClick={() => dispatch({type: "INCREASE", payload: productData})}>+</button> :
-                            <button onClick={() => dispatch({type: "ADD_ITEM", payload: productData})}>add to cart</button>
-                        }
+                    <div className={styles.buttonContainer}>
+                        
                         {quantityCount(state, productData.id) > 1 && 
-                            <button onClick={() => dispatch({type: "DECREASE", payload: productData})}>-</button> }
+                            <button onClick={() => dispatch({type: "DECREASE", payload: productData})} className={styles.smallButton}>-</button> }
                         {quantityCount(state, productData.id) === 1 &&
-                            <button onClick={() => dispatch({type: "REMOVE_ITEM", payload: productData})}>
-                             <img src={trashIcon} alt='trash' style={{width:"20px"}}/>
+                            <button onClick={() => dispatch({type: "REMOVE_ITEM", payload: productData})} className={styles.smallButton}>
+                             <img src={trashIcon} alt='trash'/>
                             </button>}
+                        {quantityCount(state, productData.id) > 0 && <span className={styles.counter}>{quantityCount(state, productData.id)}</span>}
+
+                        {
+                        isInCart(state, productData.id) ? 
+                        <button onClick={() => dispatch({type: "INCREASE", payload: productData})} className={styles.smallButton}>+</button> :
+                        <button onClick={() => dispatch({type: "ADD_ITEM", payload: productData})} >add to cart</button>
+                        }
                     </div>
                 </div>
             </div>
