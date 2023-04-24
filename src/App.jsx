@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom'; 
+import { Route, Navigate, Routes } from 'react-router-dom'; 
 
 //components
 import ProductDetials from './components/ProductDetials';
@@ -16,12 +16,12 @@ function App() {
     <ProductContextProvider>
       <CartContextProvider>
         <Navbar />
-            <Switch>
-              <Route path="/product/:id" component={ProductDetials} />
-              <Route path="/product" component={Store} />
-              <Route path="/Cart" component={ShopCart} />
-              <Redirect to="/product" />
-            </Switch>
+            <Routes>
+              <Route path="/product/:id" element={<ProductDetials />} />
+              <Route path="/product" element={<Store />} />
+              <Route path="/Cart" element={<ShopCart />} />
+              <Route path="/*" element={<Navigate to="/product" />} />
+            </Routes>
       </CartContextProvider>
     </ProductContextProvider>
   )
